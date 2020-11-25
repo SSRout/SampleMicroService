@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Core", "Domain.Core\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfraBus", "InfraBus\InfraBus.csproj", "{39F7ED14-6E6D-469E-AFAF-2E2219218B17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfraIoc", "InfraIoc\InfraIoc.csproj", "{75DD6BAC-CFB8-4CF3-AE5C-B511EEEE19C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{39F7ED14-6E6D-469E-AFAF-2E2219218B17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39F7ED14-6E6D-469E-AFAF-2E2219218B17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39F7ED14-6E6D-469E-AFAF-2E2219218B17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75DD6BAC-CFB8-4CF3-AE5C-B511EEEE19C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75DD6BAC-CFB8-4CF3-AE5C-B511EEEE19C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75DD6BAC-CFB8-4CF3-AE5C-B511EEEE19C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75DD6BAC-CFB8-4CF3-AE5C-B511EEEE19C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E63068B0-285D-475F-8D49-1F24B89069E7} = {5D02B91D-6A46-4A71-A8F7-D2C961B85630}
 		{39F7ED14-6E6D-469E-AFAF-2E2219218B17} = {ADC19FF6-2D12-4CA0-9289-699BEBD7E395}
+		{75DD6BAC-CFB8-4CF3-AE5C-B511EEEE19C6} = {FF9B2141-F1BB-4484-A6AA-36701B543307}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {52E400C2-B75E-4AC1-A27C-339E6465BB60}
