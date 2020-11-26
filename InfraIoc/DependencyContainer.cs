@@ -2,9 +2,12 @@
 using Banking.application.Services;
 using Banking.Data.Context;
 using Banking.Data.Repository;
+using Banking.Domain.CommandHandlers;
+using Banking.Domain.Commands;
 using Banking.Domain.Interfaces;
 using Domain.Core.Bus;
 using InfraBus;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -16,6 +19,9 @@ namespace InfraIoc
         {
             //Domian Bus
             services.AddTransient<IEventBus, RabbitMqBus>();
+
+            //Domain Baniking Commands
+            services.AddTransient<IRequestHandler<CreateTransferCommand,bool>, TransferCommandHandler>();
 
             //Application Services
             services.AddTransient<IAccountService, AccountService>();

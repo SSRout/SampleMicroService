@@ -1,7 +1,9 @@
 ﻿using Banking.application.Dtos;
 using Banking.application.Interfaces;
+using Banking.Domain.Commands;
 using Banking.Domain.Interfaces;
 using Banking.Domain.Models;
+using Domain.Core.Bus;
 using System;
 using System.Collections.Generic;
 
@@ -10,9 +12,12 @@ namespace Banking.application.Services
     public class AccountService : IAccountService
     {
         private readonly IAccountRepository _accountRepository;
-        public AccountService(IAccountRepository accountRepository)
+        private readonly IEventBus _bus;
+
+        public AccountService(IAccountRepository accountRepository,IEventBus bus)
         {
             _accountRepository = accountRepository;
+            _bus = bus;
         }
 
        
@@ -23,7 +28,13 @@ namespace Banking.application.Services
 
         public void Transfer(AccountTransfer accountTransfer)
         {
-            throw new NotImplementedException();
+            var createTransferCommand = new CreateTransferCommand(
+                accountTransfer.AcountFrom,
+                accountTransfer.AccountTo,
+                accountTransfer.AmountTransfer
+                );
+
+            _bus.SendCommand(createTransferCommand);
         }
     }
 }
