@@ -1,7 +1,11 @@
+using Banking.Data.Context;
+using InfraIoc;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,10 +32,21 @@ namespace Banking.Api
         {
 
             services.AddControllers();
+            services.AddDbContext<BankingDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("BankingDbConnection"));
+            });
+            RegisterServices(services);
+            services.AddMediatR(typeof(Startup));
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Banking.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Banking.Api microservice", Version = "v1" });
             });
+        }
+
+        private void RegisterServices(IServiceCollection services)
+        {
+            DependencyContainer.RegisterService(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,7 +56,7 @@ namespace Banking.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Banking.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Banking.Api microservice v1"));
             }
 
             app.UseHttpsRedirection();
