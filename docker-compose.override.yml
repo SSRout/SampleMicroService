@@ -41,3 +41,31 @@ services:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   
+  transfer.api:
+    container_name: transferapi
+    restart: on-failure
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:TransferDbConnection=Server=ms-sql-server,1433;Database=Transfer.DB;User Id=SA;Password=Titan#12"
+      - "EventBus:HostName=rabbitmq"
+      #- ASPNETCORE_URLS=https://+:443;http://+:80
+
+    depends_on:
+       - ms-sql-server
+       - rabbitmq
+
+    ports:
+      - "8001:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  mvcwebapp:
+    container_name: mvcwebapp
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      #- ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "8002:80"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

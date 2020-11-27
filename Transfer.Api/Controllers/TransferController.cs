@@ -10,7 +10,7 @@ using Transfer.Domain.Models;
 namespace Transfer.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class TransferController : ControllerBase
     {
         private readonly ITransferService _transferService;

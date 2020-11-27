@@ -8,3 +8,17 @@ services:
       dockerfile: Banking.Api/Dockerfile
 
 
+
+  transfer.api:
+    image: ${DOCKER_REGISTRY-}transferapi
+    build:
+      context: .
+      dockerfile: Transfer.Api/Dockerfile
+
+
+  mvcwebapp:
+    image: ${DOCKER_REGISTRY-}mvcwebapp
+    build:
+      context: .
+      dockerfile: MvcWebApp/Dockerfile
+

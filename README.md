@@ -1,7 +1,9 @@
 ## Sample Microservice
 
-- MediatR added to domain.core
-- MediatR added to InfraBus
-- RabbitMQ.Client to InfraBus
+- .Net 5
+- Docker
+- Sql Server
+- RabbitMq
+- Clean Architecture
 
 **✔️🍺 Happy Coding 👍😊**
