@@ -1,7 +1,11 @@
+using Domain.Core.Bus;
+using InfraIoc;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +15,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Transfer.Data.Context;
+using Transfer.Domain.EventHandlers;
+using Transfer.Domain.Events;
 
 namespace Transfer.Api
 {
@@ -28,10 +35,22 @@ namespace Transfer.Api
         {
 
             services.AddControllers();
+            services.AddDbContext<TransferDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("TransferDbConnection"));
+            });
+            RegisterServices(services);
+            services.AddMediatR(typeof(Startup));
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Transfer.Api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Transfer.Api Microservice", Version = "v1" });
             });
+        }
+
+        private void RegisterServices(IServiceCollection services)
+        {
+            DependencyContainer.RegisterService(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,7 +60,7 @@ namespace Transfer.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Transfer.Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Transfer.Api Microservice v1"));
             }
 
             app.UseHttpsRedirection();
@@ -50,10 +69,20 @@ namespace Transfer.Api
 
             app.UseAuthorization();
 
+           
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            ConfigureEventBus(app);
+        }
+
+        private void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<TransferCreatedEvent, TransferEventHandler>();
         }
     }
 }

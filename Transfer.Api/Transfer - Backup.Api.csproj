@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
-		<UserSecretsId>84a972a1-1823-428a-82f9-ea1cacef97b0</UserSecretsId>
-		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+		<UserSecretsId>71d9e011-c28a-4e42-8d18-8a008c605efe</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -21,7 +21,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\InfraIoc\InfraIoc.csproj" />
+	  <ProjectReference Include="..\InfraIoc\InfraIoc.csproj" />
+	  <ProjectReference Include="..\Transfer.Data\Transfer.Data.csproj" />
 	</ItemGroup>
 
 </Project>

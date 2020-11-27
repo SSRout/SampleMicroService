@@ -2,38 +2,42 @@ version: '3.4'
 
 services:
 
-  #rabbitmq:
-  #  image: rabbitmq:3-management-alpine
-  #  container_name: rabbitmq
-  #  restart: always
-  #  ports:
-  #    - "5672:5672"
-  #    - "15672:15672"
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
-  sql-server:
+  ms-sql-server:
+    container_name:  ms-sql-server
     image: mcr.microsoft.com/mssql/server 
-    container_name: sql-server
     ports:
        - "1433:1433"
     environment:
       SA_PASSWORD: "Titan#12"
       ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+      MSSQL_TCP_PORT: "1433"
 
   banking.api:
     container_name: bankingapi
     restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:BankingDbConnection=Server=sql-server;Database=Banking.DB;User Id=sa;Password=Titan#12"
-      #- "EventBus:HostName=rabbitmq"
+      - "ConnectionStrings:BankingDbConnection=Server=ms-sql-server,1433;Database=Banking.DB;User Id=SA;Password=Titan#12"
+      - "EventBus:HostName=rabbitmq"
       #- ASPNETCORE_URLS=https://+:443;http://+:80
 
     depends_on:
-       - sql-server
-       #- rabbitmq
+       - ms-sql-server
+       - rabbitmq
     ports:
       - "8000:80"
 
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  

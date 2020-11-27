@@ -27,7 +27,14 @@ namespace Banking.Data.Context
             }
             catch(Exception ex)
             {
-                throw new Exception($"Migration Failed: {ex.Message}");
+                if (retryForAvailability < 5)
+                {
+                    retryForAvailability++;
+                    var log = loggerFactory.CreateLogger<BankingDbContextSeed>();
+                    log.LogError(ex.Message);
+                    await SeedAsync(bankingDbContext, loggerFactory, retryForAvailability);
+                }
+                throw;
             }
         }
 
