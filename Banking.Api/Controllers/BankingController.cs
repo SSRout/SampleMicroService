@@ -1,17 +1,16 @@
 ﻿using Banking.application.Dtos;
 using Banking.application.Interfaces;
 using Banking.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Banking.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize("ClientIdPolicy")]
     public class BankingController : ControllerBase
     {
         private readonly IAccountService _accountService;

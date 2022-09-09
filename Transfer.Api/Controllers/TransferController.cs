@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Transfer.Application.Interfaces;
 using Transfer.Domain.Models;
 
@@ -11,6 +9,7 @@ namespace Transfer.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize("ClientIdPolicy")]
     public class TransferController : ControllerBase
     {
         private readonly ITransferService _transferService;

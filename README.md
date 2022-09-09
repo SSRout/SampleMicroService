@@ -5,6 +5,7 @@
 - Sql Server
 - RabbitMq
 - Clean Architecture
+- Identity Server
 
 
 [Reference link](https://www.udemy.com/course/getting-started-net-core-microservices-rabbitmq/)
