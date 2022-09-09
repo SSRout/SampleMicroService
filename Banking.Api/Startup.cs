@@ -42,6 +42,19 @@ namespace Banking.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Banking.Api microservice", Version = "v1" });
             });
+
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", op => {
+                    op.Authority = "https://localhost:5007";
+                    op.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters { 
+                        ValidateAudience=false
+                    };
+                    op.RequireHttpsMetadata = false;
+                });
+
+            services.AddAuthorization(op=> {
+                op.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "StsClient"));
+            });
         }
 
         private void RegisterServices(IServiceCollection services)
@@ -63,6 +76,7 @@ namespace Banking.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

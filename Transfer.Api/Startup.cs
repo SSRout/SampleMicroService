@@ -46,6 +46,20 @@ namespace Transfer.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Transfer.Api Microservice", Version = "v1" });
             });
+
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", op => {
+                    op.Authority = "http://localhost:5006";
+                    op.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateAudience = false
+                    };
+                    op.RequireHttpsMetadata = false;
+                });
+
+            services.AddAuthorization(op => {
+                op.AddPolicy("ClientIdPolicy", policy => policy.RequireClaim("client_id", "StsClient"));
+            });
         }
 
         private void RegisterServices(IServiceCollection services)
@@ -67,10 +81,9 @@ namespace Transfer.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
-           
-
+     
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
