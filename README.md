@@ -5,5 +5,6 @@
 - Sql Server
 - RabbitMq
 - Clean Architecture
+- Identity Server
 
 **✔️🍺 Happy Coding 👍😊**
